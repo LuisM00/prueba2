@@ -57,12 +57,26 @@ app.post('/users/register', (req, res) =>{
     genero
   });
   
-  //let errors=[];
-
-  //if (!nombre || !apellido || !correo || !contrasena || !genero) 
-  //{
-  //  errors.push({message:"ingresar todos los campos"});
-  //}
+    if ( contrasena !== contrasena2 ) {
+      res.render("register.html", {
+        error: "Las contraseñas no coinciden"
+      });
+    } else {
+      pool.query(
+        "INSERT INTO usuarios (nombre, apellido, genero, correo, contrasena) VALUES ($1, $2, $3, $4, $5)",
+        [nombre, apellido, genero, correo, contrasena],
+        (error, results) => {
+          if (error) {
+            console.log(error);
+            res.render("register.html", {
+              error: "Hubo un error al registrar el usuario"
+            });
+          } else {
+            res.redirect("/users/login");
+          }
+        }
+      );
+    }
 });
 
 
