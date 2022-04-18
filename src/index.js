@@ -56,14 +56,14 @@ app.post('/users/register', (req, res) =>{
     contrasena2,
     genero
   });
-  
+
     if ( contrasena !== contrasena2 ) {
       res.render("register.html", {
         error: "Las contraseñas no coinciden"
       });
     } else {
       pool.query(
-        "INSERT INTO usuarios (nombre, apellido, genero, correo, contrasena) VALUES ($1, $2, $3, $4, $5)",
+        "INSERT INTO usuario (nombre, apellido, genero, correo, contrasena) VALUES ($1, $2, $3, $4, $5)",
         [nombre, apellido, genero, correo, contrasena],
         (error, results) => {
           if (error) {
