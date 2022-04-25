@@ -6,6 +6,7 @@ const { request } = require("http");
 const morgan = require("morgan");
 const path = require("path");
 const app = express();
+const bcrypt = require("bcrypt"); 
 //const {client} = require("pg")
  
 const { pool } = require ("../dbConfig")
@@ -45,11 +46,15 @@ app.get("/users/dashboard", (req, res) => {
   res.render("dashboard.html", {user: "Admi"});
 });
 
+<<<<<<< HEAD
 app.get("/users/registroProducto", (req, res) => {
   res.render("registroProducto.html");
 });
 
 app.post('/users/register', (req, res) =>{
+=======
+app.post('/users/register', async (req, res) =>{
+>>>>>>> 8569291d7a2be6c034443595934c4a15ec8fe4f7
   let { nombre, apellido, genero, correo, contrasena, contrasena2} = req.body;
 
   console.log({
@@ -84,6 +89,37 @@ app.post('/users/register', (req, res) =>{
         }
       );
     }
+
+    if ( contrasena.lenght < 6) {
+      errors.push({message: "La contraseña debe tener al menos 6 caracteres"});
+    }
+
+    /*if(errors.lenght > 0){
+      res.render("register.html", { errors})
+    }else{
+      let hashedPassword = await bcrypt.hash(contrasena, 10);
+      console.log(hashedPassword);
+    }*/
+
+
+    if ( contrasena !== contrasena2 ) {
+        errors.push({message: "Las contraseñas no coinciden"});
+    }
+    pool.query(
+      
+      "INSERT INTO usuarios (nombre, apellido, genero, correo, contrasena) VALUES ($1, $2, $3, $4, $5)",
+      [nombre, apellido, genero, correo, contrasena],
+      (error, results) => {
+      if (error) {
+        console.log(error);
+        res.render("register.html", {
+          error: "Hubo un error al registrar el usuario"
+          });
+      } else {
+        res.redirect("/users/login");
+      }
+      });
+
 });
 
 
