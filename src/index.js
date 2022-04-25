@@ -46,26 +46,24 @@ app.get("/users/dashboard", (req, res) => {
   res.render("dashboard.html", {user: "Admi"});
 });
 
-<<<<<<< HEAD
-app.get("/users/registroProducto", (req, res) => {
+app.get("/users/registroProducto", async (req, res) => {
   res.render("registroProducto.html");
+  let { nombre, descripcion, stock, select_estado, select_marca, precio_de_adquisicion, precio_de_venta, imagen } = req.body;
+    pool.query(
+        "INSERT INTO articulo( nombre, descripcion, stock, estado, marca, precio_de_adquisicion, precio_de_venta, imagen) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+        [nombre, descripcion, stock, select_estado, select_marca, precio_de_adquisicion, precio_de_venta, imagen],
+        (error, results) => {
+            if (error) {
+                throw error
+            }
+            res.redirect("/users/dashboard")
+        }
+    )
+  
 });
 
-app.post('/users/register', (req, res) =>{
-=======
 app.post('/users/register', async (req, res) =>{
->>>>>>> 8569291d7a2be6c034443595934c4a15ec8fe4f7
   let { nombre, apellido, genero, correo, contrasena, contrasena2} = req.body;
-
-  console.log({
-    nombre,
-    apellido,
-    correo,
-    contrasena,
-    contrasena2,
-    genero
-  });
-
     if ( contrasena !== contrasena2 ) 
     {
       res.render("register.html", {
