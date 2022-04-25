@@ -25,5 +25,8 @@ router.get('/catalogo', (req, res) => {
   res.render('catalogo.html', { title: 'Information Page' });
 });
 
+router.get('/registroProducto', (req, res) => {
+  res.render('registroProducto.html', { title: 'Information Page' });
+});
 
 module.exports = router;

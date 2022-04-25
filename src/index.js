@@ -45,6 +45,10 @@ app.get("/users/dashboard", (req, res) => {
   res.render("dashboard.html", {user: "Admi"});
 });
 
+app.get("/users/registroProducto", (req, res) => {
+  res.render("registroProducto.html");
+});
+
 app.post('/users/register', (req, res) =>{
   let { nombre, apellido, genero, correo, contrasena, contrasena2} = req.body;
 
@@ -57,13 +61,16 @@ app.post('/users/register', (req, res) =>{
     genero
   });
 
-    if ( contrasena !== contrasena2 ) {
+    if ( contrasena !== contrasena2 ) 
+    {
       res.render("register.html", {
         error: "Las contraseñas no coinciden"
       });
-    } else {
+    } 
+    else 
+    {
       pool.query(
-        "INSERT INTO usuario (nombre, apellido, genero, correo, contrasena) VALUES ($1, $2, $3, $4, $5)",
+        "INSERT INTO usuarios (nombre, apellido, genero, correo, contrasena) VALUES ($1, $2, $3, $4, $5)",
         [nombre, apellido, genero, correo, contrasena],
         (error, results) => {
           if (error) {
@@ -84,6 +91,3 @@ app.post('/users/register', (req, res) =>{
 app.listen(app.get("port"), () => {
   console.log("Server on port", app.get("port"));
 });
-
-
-
