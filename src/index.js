@@ -49,18 +49,18 @@ app.get("/users/dashboard", (req, res) => {
 app.post("/users/registroProducto", async (req, res) => {
   res.render("registroProducto.html");
   let { nombre, descripcion, stock, select_estado, select_marca, precio_de_adquisicion, precio_de_venta, imagen } = req.body;
-    console.log({nombre, descripcion, stock, select_estado, select_marca, precio_de_adquisicion, precio_de_venta, imagen})
-    console.log(req.body)
-      pool.query(
-      "INSERT INTO articulo( nombre, descripcion, stock, estado, marca, precio, precio_compra, imagen) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
-      [nombre, descripcion, stock, select_estado, select_marca, precio_de_adquisicion, precio_de_venta, imagen],
-      (error, results) => {
-          if (error) {
-              throw error
-          }
-          res.redirect("/users/dashboard")
-      }
-  )
+      console.log({nombre, descripcion, stock, select_estado, select_marca, precio_de_adquisicion, precio_de_venta, imagen})
+      console.log(req.body)
+    pool.query(
+        "INSERT INTO articulo( nombre, descripcion, stock, estado, marca, precio, precio_compra, imagen ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+        [nombre, descripcion, stock, select_estado, select_marca, precio_de_venta, precio_de_adquisicion, imagen],
+        (error, results) => {
+            if (error) {
+                console.log( error );
+            }
+            res.redirect("/users/registroProducto");
+        }
+    )
 });
 
 app.post('/users/register', async (req, res) =>{
